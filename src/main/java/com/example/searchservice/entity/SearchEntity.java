@@ -1,20 +1,21 @@
 package com.example.searchservice.entity;
 
 
-import jakarta.persistence.*;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
 
-@Entity
+
 @Getter
 @Setter
-@Table(name = "search")
+@Document(indexName = "search")
 public class SearchEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
 
 private String hashtag;

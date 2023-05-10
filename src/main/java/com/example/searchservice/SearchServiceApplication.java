@@ -12,10 +12,5 @@ public class SearchServiceApplication {
 
 }
 
-//TODO: Rabbitmq och elasticsearch
-// 2. producer är postservice och consumer är searchservice
-// 3. fanout kommer användas i rabbitmq.
-// 4. fixa endpoints i controller
-// 7. Query? i repositoryklassen?
 
 

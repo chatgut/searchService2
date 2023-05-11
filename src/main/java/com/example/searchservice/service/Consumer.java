@@ -1,4 +1,4 @@
-package com.example.searchservice.rabbitmq;
+package com.example.searchservice.service;
 
 import com.example.searchservice.entity.SearchEntity;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;

@@ -4,7 +4,6 @@ package com.example.searchservice.controller;
 import com.example.searchservice.entity.SearchEntity;
 import com.example.searchservice.repository.SearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,29 +13,30 @@ import java.util.List;
 public class SearchController {
 
 
-    SearchRepository repository;
+    private SearchRepository repository;
 
+    @Autowired
     public SearchController(SearchRepository repository) {
         this.repository = repository;
     }
 
+    @PostMapping
+    public void save(@RequestBody SearchEntity searchEntity) {
+            repository.save(searchEntity);
+    }
 
-//    public void savePostsIndex(List<SearchEntity> posts) {
-//        repository.save(posts);
-//
-//
-//    }
-//
-    @GetMapping("/text")
-    List<SearchEntity> searchByText(@RequestParam String text) {
+        @GetMapping("/text/{text}")
+    List<SearchEntity> searchByText(@PathVariable String text) {
         return repository.findByTextContaining(text);
 
 
     }
-    @GetMapping("/hashtag")
-    List<SearchEntity> searchByHashtag(@RequestParam String hashtag) {
+    @GetMapping("/hashtag/{hashtag}")
+    List<SearchEntity> searchByHashtag(@PathVariable String hashtag) {
         return repository.findByHashtag(hashtag);
 
 
     }
+
+
 }

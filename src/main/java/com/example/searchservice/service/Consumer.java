@@ -9,6 +9,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 
 
@@ -42,14 +43,14 @@ public class Consumer {
     }
 
     @RabbitListener(queues = {MESSAGE_1})
-    public void receiveMessageFromFanout1(SearchEntity searchEntity) {
-        System.out.println("Received 1 message: " + searchEntity);
-        searchRepository.save(searchEntity);
+    public void receiveMessageFromFanout1(String message) {
+        System.out.println("Received 1 message: " + message);
+        searchRepository.save(new SearchEntity(message));
     }
 
     @RabbitListener(queues = {MESSAGE_2})
-    public void receiveMessageFromFanout2(SearchEntity searchEntity) {
-        System.out.println("Received 2 message: " + searchEntity);
-        searchRepository.save(searchEntity);
+    public void receiveMessageFromFanout2(String message) {
+        System.out.println("Received 1 message: " + message);
+        searchRepository.save(new SearchEntity(message));
     }
 }

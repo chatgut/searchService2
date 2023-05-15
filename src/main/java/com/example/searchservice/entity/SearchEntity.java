@@ -2,10 +2,8 @@ package com.example.searchservice.entity;
 
 
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -26,6 +24,11 @@ private String hashtag;
 
     @Field(type = FieldType.Text, name = "text")
 private String text;
+
+
+    public SearchEntity(String text) {
+        this.text = text;
+    }
 
 
 }

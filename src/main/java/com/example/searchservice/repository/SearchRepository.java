@@ -8,11 +8,12 @@ import java.util.List;
 public interface SearchRepository extends ElasticsearchRepository<SearchEntity,String> {
 
     List<SearchEntity> findByHashtag(String hashtag);
+
     List<SearchEntity> findByTextContaining(String text);
 
-    void save(List<SearchEntity> posts);
+
+    void save(SearchEntity searchEntity);
 
 
-
-
+    List<SearchEntity> findAll();
 }

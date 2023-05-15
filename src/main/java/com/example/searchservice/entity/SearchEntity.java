@@ -18,7 +18,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class SearchEntity {
 
     @Id
-private Long id;
+private String id;
 
     @Field(type = FieldType.Keyword, name = "hashtag")
 private String hashtag;

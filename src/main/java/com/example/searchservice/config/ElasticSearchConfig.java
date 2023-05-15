@@ -1,6 +1,9 @@
 package com.example.searchservice.config;
 
+import org.elasticsearch.action.*;
+import org.elasticsearch.client.ElasticsearchClient;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.threadpool.ThreadPool;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -25,4 +28,5 @@ public class ElasticSearchConfig extends AbstractElasticsearchConfiguration {
         return RestClients.create(clientConfiguration)
                 .rest();
     }
+
 }

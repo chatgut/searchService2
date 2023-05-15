@@ -20,9 +20,9 @@ public class SearchController {
         this.repository = repository;
     }
 
-    @PostMapping
-    public void save(@RequestBody SearchEntity searchEntity) {
-            repository.save(searchEntity);
+    @PostMapping("/insert")
+    public void insertPost(@RequestBody SearchEntity searchEntity) {
+        repository.save(searchEntity);
     }
 
         @GetMapping("/text/{text}")
@@ -36,6 +36,10 @@ public class SearchController {
         return repository.findByHashtag(hashtag);
 
 
+    }
+    @GetMapping("/findAll")
+    List<SearchEntity> getAllPosts() {
+        return repository.findAll();
     }
 
 

@@ -1,15 +1,13 @@
 package com.example.searchservice.service;
 
 import com.example.searchservice.entity.SearchEntity;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import com.example.searchservice.repository.SearchRepository;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Declarables;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +15,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class Consumer {
 
-    final String FANOUT_QUEUE_1_NAME = "messages";
+    final String MESSAGE_1 = "messages";
 
-    final String FANOUT_QUEUE_2_NAME = "messages";
+    final String MESSAGE_2 = "messages";
+
+    private final SearchRepository searchRepository;
+
+    @Autowired
+    public Consumer(SearchRepository searchRepository) {
+        this.searchRepository = searchRepository;
+    }
 
 
     @Bean
@@ -36,30 +41,15 @@ public class Consumer {
                 BindingBuilder.bind(fanoutQueue2).to(fanoutExchange));
     }
 
-    @RabbitListener(queues = {FANOUT_QUEUE_1_NAME})
-    public void receiveMessageFromFanout1(String message) {
-        System.out.println("Received fanout 1 message: " + message);
+    @RabbitListener(queues = {MESSAGE_1})
+    public void receiveMessageFromFanout1(SearchEntity searchEntity) {
+        System.out.println("Received 1 message: " + searchEntity);
+        searchRepository.save(searchEntity);
     }
 
-    @RabbitListener(queues = {FANOUT_QUEUE_2_NAME})
-    public void receiveMessageFromFanout2(String message) {
-        System.out.println("Received fanout 2 message: " + message);
+    @RabbitListener(queues = {MESSAGE_2})
+    public void receiveMessageFromFanout2(SearchEntity searchEntity) {
+        System.out.println("Received 2 message: " + searchEntity);
+        searchRepository.save(searchEntity);
     }
 }
-
-//    @Bean
-//    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
-//                                             MessageListenerAdapter listenerAdapter) {
-//        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-//        container.setConnectionFactory(connectionFactory);
-//        container.setMessageListener(listenerAdapter);
-//        return container;
-//    }
-//
-//    @Bean
-//    MessageListenerAdapter listenerAdapter(Receiver receiver) {
-//        return new MessageListenerAdapter(receiver, "receiveMessage");
-//    }
-//
-//
-//}

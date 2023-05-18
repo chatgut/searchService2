@@ -12,7 +12,6 @@ public interface SearchRepository extends ElasticsearchRepository<SearchEntity,S
     List<SearchEntity> findByTextContaining(String text);
 
 
-    void save(SearchEntity searchEntity);
 
 
     List<SearchEntity> findAll();

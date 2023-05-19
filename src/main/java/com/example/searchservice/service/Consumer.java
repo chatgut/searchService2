@@ -18,7 +18,6 @@ public class Consumer {
 
     final String MESSAGE_1 = "messages";
 
-    final String MESSAGE_2 = "messages";
 
     private final SearchRepository searchRepository;
 
@@ -31,15 +30,12 @@ public class Consumer {
     @Bean
     public Declarables fanoutBindings() {
         Queue fanoutQueue1 = new Queue("fanout.queue1", false);
-        Queue fanoutQueue2 = new Queue("fanout.queue2", false);
-        FanoutExchange fanoutExchange = new FanoutExchange("fanout.exchange");
+        FanoutExchange fanoutExchange = new FanoutExchange("fanout.messages");
 
         return new Declarables(
                 fanoutQueue1,
-                fanoutQueue2,
                 fanoutExchange,
-                BindingBuilder.bind(fanoutQueue1).to(fanoutExchange),
-                BindingBuilder.bind(fanoutQueue2).to(fanoutExchange));
+                BindingBuilder.bind(fanoutQueue1).to(fanoutExchange));
     }
 
     @RabbitListener(queues = {MESSAGE_1})
@@ -48,9 +44,5 @@ public class Consumer {
         searchRepository.save(new SearchEntity(message));
     }
 
-    @RabbitListener(queues = {MESSAGE_2})
-    public void receiveMessageFromFanout2(String message) {
-        System.out.println("Received 1 message: " + message);
-        searchRepository.save(new SearchEntity(message));
-    }
+
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/search")
+@RequestMapping("/search")
 public class SearchController {
 
 
@@ -20,13 +20,10 @@ public class SearchController {
         this.repository = repository;
     }
 
-    @PostMapping("/insert")
-    public void insertPost(@RequestBody SearchEntity searchEntity) {
-        repository.save(searchEntity);
-    }
-
         @GetMapping("/text/{text}")
     List<SearchEntity> searchByText(@PathVariable String text) {
+
+
         return repository.findByTextContaining(text);
 
 

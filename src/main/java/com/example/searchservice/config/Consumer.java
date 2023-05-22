@@ -1,7 +1,15 @@
-package com.example.searchservice.service;
+package com.example.searchservice.config;
 
 import com.example.searchservice.entity.SearchEntity;
 import com.example.searchservice.repository.SearchRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+import com.example.searchservice.entity.SearchEntity;
+import com.example.searchservice.repository.SearchRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Declarables;
 import org.springframework.amqp.core.FanoutExchange;
@@ -11,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class Consumer {

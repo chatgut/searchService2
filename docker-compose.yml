@@ -14,11 +14,32 @@ services:
     environment:
       ROCKET_DATABASES: '{postservice={url="mongodb://dbMongoDB:27017"}}'
       ROCKET_RABBIT_HOST: "amqp://QueueRabbitMQ:5672"
+      #RUST_BACKTRACE: 'full'
+
+
 
     ports:
       - "8000:8000"
     networks:
       - elastic
+
+
+  search-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ghcr.io/chatgut/searchservice2:main
+    container_name: searchService
+    restart: on-failure
+    depends_on:
+        - Elasticsearch
+    ports:
+        - "8006:8006"
+    networks:
+        - elastic
+
+
+
 
   mongodb:
     image: 'mongo:latest'

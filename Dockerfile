@@ -1,4 +1,5 @@
 FROM maven:3.9-eclipse-temurin-20 as build
+#FROM ghcr.io/chatgut/searchservice2:main
 COPY . /app
 WORKDIR /app
 RUN mvn clean package

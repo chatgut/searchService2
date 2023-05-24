@@ -2,6 +2,7 @@ package com.example.searchservice.config;
 
 import com.example.searchservice.entity.SearchEntity;
 import com.example.searchservice.repository.SearchRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,28 +29,37 @@ public class Consumer {
 
     private final SearchRepository searchRepository;
 
+    private ObjectMapper objectMapper;
+
     @Autowired
-    public Consumer(SearchRepository searchRepository) {
+    public Consumer(SearchRepository searchRepository, ObjectMapper objectMapper) {
         this.searchRepository = searchRepository;
+        this.objectMapper = objectMapper;
     }
 
-
-    @Bean
-    public Declarables fanoutBindings() {
-        Queue fanoutQueue1 = new Queue("fanout.queue1", false);
-        FanoutExchange fanoutExchange = new FanoutExchange("fanout.messages");
-
-        return new Declarables(
-                fanoutQueue1,
-                fanoutExchange,
-                BindingBuilder.bind(fanoutQueue1).to(fanoutExchange));
-    }
+//
+//    @Bean
+//    public Declarables fanoutBindings() {
+//        Queue fanoutQueue1 = new Queue("fanout.queue1", false);
+//        FanoutExchange fanoutExchange = new FanoutExchange("fanout.messages");
+//
+//        return new Declarables(
+//                fanoutQueue1,
+//                fanoutExchange,
+//                BindingBuilder.bind(fanoutQueue1).to(fanoutExchange));
+//    }
 
     @RabbitListener(queues = {MESSAGE_1})
-    public void receiveMessageFromFanout1(String message) {
-        System.out.println("Received 1 message: " + message);
-        searchRepository.save(new SearchEntity(message));
+    public void receiveMessageFromFanout1(String jsonMessage) {
+        try {
+
+            SearchEntity searchEntity = objectMapper.readValue(jsonMessage, SearchEntity.class);
+
+            System.out.println("Received 1 message: " + jsonMessage);
+            searchRepository.save(searchEntity);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
     }
-
-
 }

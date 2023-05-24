@@ -29,8 +29,8 @@ public class SearchController {
 
     }
     @GetMapping("/hashtag/{hashtag}")
-    List<SearchEntity> searchByHashtag(@PathVariable String hashtag) {
-        return repository.findByHashtag(hashtag);
+    List<SearchEntity> searchByHashtag(@RequestParam String tag) {
+        return repository.findByHashtag(tag);
 
 
     }

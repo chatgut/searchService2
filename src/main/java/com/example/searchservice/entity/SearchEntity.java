@@ -2,6 +2,7 @@ package com.example.searchservice.entity;
 
 
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -22,13 +23,15 @@ private String id;
 private String hashtag;
 
 
-    @Field(type = FieldType.Text, name = "text")
-private String text;
+    @Field(type = FieldType.Text, name = "message")
+private String message;
 
 
-    public SearchEntity(String text) {
-        this.text = text;
-    }
+
+
+//    public SearchEntity(String text) {
+//        this.text = text;
+//    }
 
 
 }

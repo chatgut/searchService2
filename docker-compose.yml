@@ -1,8 +1,5 @@
 version: '3.8'
 
-networks:
-    elastic:
-
 services:
   app:
     image: ghcr.io/chatgut/micropostservice:main
@@ -14,32 +11,9 @@ services:
     environment:
       ROCKET_DATABASES: '{postservice={url="mongodb://dbMongoDB:27017"}}'
       ROCKET_RABBIT_HOST: "amqp://QueueRabbitMQ:5672"
-      #RUST_BACKTRACE: 'full'
-
-
 
     ports:
       - "8000:8000"
-    networks:
-      - elastic
-
-
-  search-service:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: ghcr.io/chatgut/searchservice2:main
-    container_name: searchService
-    restart: on-failure
-    depends_on:
-        - Elasticsearch
-    ports:
-        - "8006:8006"
-    networks:
-        - elastic
-
-
-
 
   mongodb:
     image: 'mongo:latest'
@@ -58,24 +32,34 @@ services:
       - "15672:15672"
       - "5672:5672"
 
-
-  Elasticsearch:
+  elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.7.1
-    container_name: es02
+    container_name: elasticsearch2
     restart: on-failure
+    ports:
+      - "9200:9200"
     volumes:
       - elastic_data:/usr/share/elasticsearch/data/
     environment:
       - xpack.security.enabled=false
       - discovery.type=single-node
 
+  search-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - '9200:9200'
-    networks:
-      - elastic
+      - "8006:8080"
+    restart: on-failure
+    depends_on:
+      - elasticsearch
+      - rabbitMQ
+    environment:
+      - SPRING_RABBITMQ_HOST=QueueRabbitMQ
 
 
 volumes:
-    dbData:
-    elastic_data:
+  elastic_data:
+  dbData:
+
 

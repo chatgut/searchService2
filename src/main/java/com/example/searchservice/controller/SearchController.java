@@ -33,5 +33,11 @@ public class SearchController {
         return repository.findAll();
     }
 
+    @GetMapping("/textId/{id}")
+    public SearchEntity getById(@PathVariable String id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Message not found with id: " + id));
+    }
+
 
 }

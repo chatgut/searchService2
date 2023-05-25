@@ -37,17 +37,6 @@ public class Consumer {
         this.objectMapper = objectMapper;
     }
 
-//
-//    @Bean
-//    public Declarables fanoutBindings() {
-//        Queue fanoutQueue1 = new Queue("fanout.queue1", false);
-//        FanoutExchange fanoutExchange = new FanoutExchange("fanout.messages");
-//
-//        return new Declarables(
-//                fanoutQueue1,
-//                fanoutExchange,
-//                BindingBuilder.bind(fanoutQueue1).to(fanoutExchange));
-//    }
 
     @RabbitListener(queues = {MESSAGE_1})
     public void receiveMessageFromFanout1(String jsonMessage) {

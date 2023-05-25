@@ -19,19 +19,11 @@ public class SearchEntity {
     @Id
 private String id;
 
-    @Field(type = FieldType.Keyword, name = "hashtag")
-private String hashtag;
-
 
     @Field(type = FieldType.Text, name = "message")
 private String message;
 
 
-
-
-//    public SearchEntity(String text) {
-//        this.text = text;
-//    }
 
 
 }

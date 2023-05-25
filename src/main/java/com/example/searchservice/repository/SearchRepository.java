@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface SearchRepository extends ElasticsearchRepository<SearchEntity,String> {
 
-    List<SearchEntity> findByHashtag(String hashtag);
 
-    List<SearchEntity> findByTextContaining(String text);
+
+    List<SearchEntity> findByMessageContaining(String text);
 
 
 
